@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>AeroGrid — Admin Dashboard</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%23061018'/><path d='M9 23 16 8l7 15h-4.2L16 16.4 13.2 23z' fill='%2300E5FF'/></svg>" />
+  <link rel="stylesheet" href="/assets/admin.css" />
+</head>
+<body>
+  <!-- ================= LOGIN ================= -->
+  <div id="view-login" class="login-wrap hidden">
+    <div class="login-card">
+      <div class="logo-row">
+        <div class="logo-mark">A</div>
+        <div>
+          <h1>AeroGrid</h1>
+          <p>Admin Dashboard</p>
+        </div>
+      </div>
+      <form id="form-login" autocomplete="off">
+        <label>Username
+          <input type="text" id="in-user" placeholder="Masukkan username" required />
+        </label>
+        <label>Password
+          <input type="password" id="in-pass" placeholder="Masukkan password" required />
+        </label>
+        <button type="submit" class="btn-primary" id="btn-login">Masuk Dashboard</button>
+        <p id="login-err" class="login-err hidden"></p>
+      </form>
+      <p class="login-foot">Backend Database • Supabase • Node.js</p>
+      <p class="login-foot muted" style="opacity:.65">Sesi admin permanen — tidak perlu login ulang.</p>
+    </div>
+  </div>
+
+  <!-- ================= DASHBOARD ================= -->
+  <div id="view-dash" class="hidden">
+    <header class="topbar">
+      <div class="topbar-left">
+        <div class="logo-mark small">A</div>
+        <div>
+          <strong>AeroGrid</strong>
+          <span>Admin Dashboard</span>
+        </div>
+      </div>
+      <div class="topbar-right">
+        <span id="db-badge" class="badge badge-cyan">db…</span>
+        <button id="btn-refresh" class="btn-ghost" title="Muat ulang data">⟳ Refresh</button>
+        <button id="btn-logout" class="btn-danger-ghost">Keluar</button>
+      </div>
+    </header>
+
+    <nav class="tabs" id="tabs">
+      <button class="tab active" data-tab="overview">Ringkasan</button>
+      <button class="tab" data-tab="devices">Daftar Perangkat</button>
+      <button class="tab" data-tab="frequent">Sering Online</button>
+      <button class="tab" data-tab="boosts">Log Boost</button>
+    </nav>
+
+    <main class="content">
+      <div id="db-warn" class="db-warn hidden"></div>
+      <!-- Ringkasan -->
+      <section id="tab-overview" class="tab-page">
+        <div class="cards" id="ov-cards"></div>
+        <div class="panel">
+          <h2>Game Paling Sering Di-Boost</h2>
+          <div id="ov-games" class="rank-list"></div>
+        </div>
+      </section>
+
+      <!-- Daftar Perangkat -->
+      <section id="tab-devices" class="tab-page hidden">
+        <div class="toolbar">
+          <input type="search" id="dev-search" placeholder="Cari model / brand / device id…" />
+          <select id="dev-status">
+            <option value="all">Semua status</option>
+            <option value="online">Online saja</option>
+            <option value="offline">Offline saja</option>
+          </select>
+          <button id="dev-prev" class="btn-ghost">‹</button>
+          <span id="dev-page-label" class="page-label">1 / 1</span>
+          <button id="dev-next" class="btn-ghost">›</button>
+        </div>
+        <div class="panel table-panel">
+          <table class="tbl">
+            <thead>
+              <tr>
+                <th>Model</th><th>Brand</th><th>Android</th><th>Chipset</th>
+                <th>RAM</th><th>Root</th><th>Boost</th><th>Heartbeat</th><th>Terlihat</th><th></th>
+              </tr>
+            </thead>
+            <tbody id="dev-tbody"></tbody>
+          </table>
+          <p id="dev-empty" class="empty hidden">Belum ada perangkat terdaftar. Jalankan aplikasi AeroGrid untuk mendaftar.</p>
+        </div>
+      </section>
+
+      <!-- Sering Online -->
+      <section id="tab-frequent" class="tab-page hidden">
+        <div class="panel">
+          <h2>Perangkat Paling Sering Online</h2>
+          <p class="muted">Diurutkan dari total heartbeat (frekuensi aplikasi aktif). 20 besar.</p>
+          <div id="fq-list" class="rank-list"></div>
+        </div>
+      </section>
+
+      <!-- Log Boost -->
+      <section id="tab-boosts" class="tab-page hidden">
+        <div class="toolbar">
+          <span class="muted" id="boost-total-label"></span>
+          <div class="grow"></div>
+          <button id="boost-prev" class="btn-ghost">‹</button>
+          <span id="boost-page-label" class="page-label">1 / 1</span>
+          <button id="boost-next" class="btn-ghost">›</button>
+        </div>
+        <div class="panel table-panel">
+          <table class="tbl">
+            <thead>
+              <tr><th>Waktu</th><th>Game</th><th>Perangkat</th><th>RAM Dibebaskan</th><th>Suhu</th><th>Durasi</th><th>Fitur</th></tr>
+            </thead>
+            <tbody id="boost-tbody"></tbody>
+          </table>
+          <p id="boost-empty" class="empty hidden">Belum ada log boost.</p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="foot">AeroGrid Backend v1.1.0 • data.cloudnet.web.id • Supabase</footer>
+  </div>
+
+  <div id="toast" class="toast hidden"></div>
+  <script src="/assets/admin.js"></script>
+</body>
+</html>
